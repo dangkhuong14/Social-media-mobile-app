@@ -3,9 +3,7 @@ import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 
 const styles = StyleSheet.create({
-  post: {
-    
-  },
+  post: {},
 
   // -----Header------
   header: {
@@ -62,17 +60,6 @@ const styles = StyleSheet.create({
 
   bold: {
     fontWeight: fonts.weight.bold,
-  },
-
-  comment: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  commentText: {
-    color: colors.black,
-    flex: 1,
-    lineHeight: 18,
   },
 });
 
