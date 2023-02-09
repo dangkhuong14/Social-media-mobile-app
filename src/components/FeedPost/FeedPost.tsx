@@ -9,6 +9,7 @@ import styles from './styles';
 import Comment from '../Comment';
 import {IPost} from '../../types/models';
 import DoublePressable from '../DoublePressable';
+import Carousel from '../Carousel';
 
 interface IFeedPost {
   post: IPost;
@@ -25,6 +26,23 @@ const FeedPost = ({post}: IFeedPost) => {
   const toggleLike = () => {
     setIsLiked(!isLiked);
   };
+
+  let content = null;
+  if (post.image) {
+    content = (
+      <DoublePressable onDoublePress={toggleLike}>
+        <Image
+          source={{
+            uri: post.image,
+          }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </DoublePressable>
+    );
+  } else if (post.images) {
+    content = <Carousel images={post.images} onDoublePressed={toggleLike} />;
+  }
 
   return (
     <View style={styles.post}>
@@ -47,15 +65,7 @@ const FeedPost = ({post}: IFeedPost) => {
 
       {/* Content */}
 
-      <DoublePressable onDoublePress={toggleLike}>
-        <Image
-          source={{
-            uri: post.image,
-          }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-      </DoublePressable>
+      {content}
 
       {/* Footer */}
       <View style={styles.footer}>

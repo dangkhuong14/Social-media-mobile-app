@@ -1,4 +1,4 @@
-import {ReactNode, useEffect} from 'react';
+import {ReactNode} from 'react';
 import {Pressable} from 'react-native';
 
 interface IDoublePress {
