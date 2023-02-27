@@ -3,6 +3,8 @@ const colors = {
 
   accent: '#ED4956',
 
+  error: '#ED4956',
+
   border: '#dcdcdc',
 
   white: '#fff',
