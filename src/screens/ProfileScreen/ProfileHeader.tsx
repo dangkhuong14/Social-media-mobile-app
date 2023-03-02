@@ -2,8 +2,10 @@ import {View, Text, Image} from 'react-native';
 import user from '../../assets/data/user.json';
 import styles from './styles';
 import Button from '../../components/Button/Button';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileHeader = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.root}>
       {/* header */}
@@ -33,7 +35,10 @@ const ProfileHeader = () => {
 
       <View style={styles.buttonContainer}>
         <Button text="Edit profile" />
-        <Button text="Another button" />
+        <Button
+          onPress={() => navigation.popToTop()}
+          text="Go back to home page"
+        />
       </View>
     </View>
   );
