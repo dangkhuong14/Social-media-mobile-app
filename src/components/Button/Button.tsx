@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: fonts.weight.semi,
     color: colors.black,
+    textAlign: 'center',
   },
 });
 

@@ -2,12 +2,12 @@
 // import EditProfileScreen from './src/screens/EditProfileScreen/EditProfileScreen';
 // import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 // import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
-// import PostUploadScreen from './src/screens/PostUploadScreen/PostUploadScreen';
+import PostUploadScreen from './src/screens/PostUploadScreen/PostUploadScreen';
 // import {NavigationContainer} from '@react-navigation/native';
-import Navigation from './src/navigation';
+// import Navigation from './src/navigation';
 
 const App = () => {
-  return <Navigation />;
+  return <PostUploadScreen />;
 };
 
 export default App;
