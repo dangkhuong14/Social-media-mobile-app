@@ -6,6 +6,11 @@ import {useNavigation} from '@react-navigation/native';
 
 const ProfileHeader = () => {
   const navigation = useNavigation();
+
+  const navigateToEditProfile = () => {
+    navigation.navigate('Edit Profile');
+  };
+
   return (
     <View style={styles.root}>
       {/* header */}
@@ -34,11 +39,8 @@ const ProfileHeader = () => {
       {/* buttons */}
 
       <View style={styles.buttonContainer}>
-        <Button text="Edit profile" />
-        <Button
-          onPress={() => navigation.popToTop()}
-          text="Go back to home page"
-        />
+        <Button onPress={navigateToEditProfile} text="Edit profile" />
+        <Button text="Another button" />
       </View>
     </View>
   );
