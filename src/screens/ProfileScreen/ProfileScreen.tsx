@@ -6,7 +6,7 @@ import {useRoute} from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const route = useRoute();
-  const {userId} = route.params;
+  const userId = route.params?.userId;
   // query the user with userId
 
   return (
