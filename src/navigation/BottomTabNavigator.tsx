@@ -1,15 +1,15 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import PostUploadScreen from '../screens/PostUploadScreen/PostUploadScreen';
+import HomeScreen from '../screens/HomeScreen';
+import PostUploadScreen from '../screens/PostUploadScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HomeStackNavigator from './HomeStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
+import {BottomTabNavigatorParamList} from './types';
 
 const BottomTabNavigator = () => {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator<BottomTabNavigatorParamList>();
   return (
     <Tab.Navigator screenOptions={{tabBarShowLabel: false}}>
       <Tab.Screen
