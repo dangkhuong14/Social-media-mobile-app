@@ -3,6 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import CommentsScreen from '../screens/CommentsScreen';
 import {RootNavigatorParamList} from './types';
+import {ActivityIndicator} from 'react-native';
+import colors from '../theme/colors';
 
 const Navitgation = () => {
   const Stack = createNativeStackNavigator<RootNavigatorParamList>();
@@ -28,7 +30,15 @@ const Navitgation = () => {
   };
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer
+      linking={linking}
+      fallback={
+        <ActivityIndicator
+          size="large"
+          color={colors.primary}
+          style={{flex: 1, width: '100%'}}
+        />
+      }>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{headerShown: true}}>

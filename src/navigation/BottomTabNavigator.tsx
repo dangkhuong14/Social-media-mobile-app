@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HomeStackNavigator from './HomeStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import {BottomTabNavigatorParamList} from './types';
+import SearchTabNavigator from './SearchTabNavigator';
 
 const BottomTabNavigator = () => {
   const Tab = createBottomTabNavigator<BottomTabNavigatorParamList>();
@@ -24,8 +25,9 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Search"
-        component={HomeScreen}
+        component={SearchTabNavigator}
         options={{
+          headerShown: false,
           tabBarIcon: ({color, size}) => (
             <MaterialIcons name="search" size={size} color={color} />
           ),
