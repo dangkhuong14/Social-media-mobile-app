@@ -1,11 +1,8 @@
-// import CommentsScreen from './src/screens/CommentsScreen/CommentsScreen';
-// import EditProfileScreen from './src/screens/EditProfileScreen/EditProfileScreen';
-// import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-// import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
-// import PostUploadScreen from './src/screens/PostUploadScreen/PostUploadScreen';
 import Navitgation from './src/navigation';
-// import {NavigationContainer} from '@react-navigation/native';
-// import Navigation from './src/navigation';
+import {Amplify} from 'aws-amplify';
+import config from './src/aws-exports';
+
+Amplify.configure(config);
 
 const App = () => {
   return <Navitgation />;
