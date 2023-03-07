@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {SignInNavigationProp} from '../../../types/navigation';
 import {Auth} from 'aws-amplify';
+import {useAuthContext} from '../../../contexts/AuthContext';
 
 type SignInData = {
   username: string;
@@ -24,10 +25,9 @@ type SignInData = {
 const SignInScreen = () => {
   const {height} = useWindowDimensions();
   const navigation = useNavigation<SignInNavigationProp>();
-
   const {control, handleSubmit, reset} = useForm<SignInData>();
-
   const [loading, setLoading] = useState<boolean>(false);
+  const {setUser} = useAuthContext();
 
   const onSignInPressed = async ({username, password}: SignInData) => {
     if (loading) return;
@@ -35,11 +35,11 @@ const SignInScreen = () => {
     setLoading(true);
 
     try {
-      const res = await Auth.signIn(username, password);
-      // Save user to data context
-    } catch (err) {
-      console.log(err);
+      const cognitoUser = await Auth.signIn(username, password);
 
+      // Save user to data context
+      setUser(cognitoUser);
+    } catch (err) {
       if ((err as Error).name === 'UserNotConfirmedException')
         navigation.navigate('Confirm email', {username});
       else if ((err as Error).name === 'PasswordResetRequiredException')

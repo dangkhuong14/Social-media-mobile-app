@@ -6,9 +6,13 @@ import {RootNavigatorParamList} from '../types/navigation';
 import {ActivityIndicator} from 'react-native';
 import colors from '../theme/colors';
 import AuthStackNavigator from './AuthStackNavigator';
+import {useAuthContext} from '../contexts/AuthContext';
+import WelcomeScreen from '../screens/WelcomeScreen';
+
+const Stack = createNativeStackNavigator<RootNavigatorParamList>();
 
 const Navitgation = () => {
-  const Stack = createNativeStackNavigator<RootNavigatorParamList>();
+  const {user} = useAuthContext();
 
   const linking: LinkingOptions<RootNavigatorParamList> = {
     prefixes: ['mystarphotos://', 'https://mystarphotos.com'],
@@ -30,30 +34,27 @@ const Navitgation = () => {
     },
   };
 
+  if (user === undefined) return <WelcomeScreen />;
+
   return (
-    <NavigationContainer
-      linking={linking}
-      fallback={
-        <ActivityIndicator
-          size="large"
-          color={colors.primary}
-          style={{flex: 1, width: '100%'}}
-        />
-      }>
-      <Stack.Navigator
-        initialRouteName="Auth"
-        screenOptions={{headerShown: true}}>
-        <Stack.Screen
-          name="Auth"
-          component={AuthStackNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={BottomTabNavigator}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="Comments" component={CommentsScreen} />
+    <NavigationContainer linking={linking} fallback={<WelcomeScreen />}>
+      <Stack.Navigator screenOptions={{headerShown: true}}>
+        {!user ? (
+          <Stack.Screen
+            name="Auth"
+            component={AuthStackNavigator}
+            options={{headerShown: false}}
+          />
+        ) : (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={BottomTabNavigator}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen name="Comments" component={CommentsScreen} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
