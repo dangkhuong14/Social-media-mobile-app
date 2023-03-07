@@ -3,7 +3,7 @@ import {IUser} from '../../types/models';
 import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
 import {useNavigation} from '@react-navigation/native';
-import {UserListItemNavigationProp} from '../../navigation/types';
+import {UserListItemNavigationProp} from '../../types/navigation';
 
 interface IUserListItem {
   user: IUser;

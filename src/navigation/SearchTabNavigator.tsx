@@ -3,7 +3,7 @@ import UserSearchScreen from '../screens/UserSearchScreen/UserSearchScreen';
 import colors from '../theme/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import CommentsScreen from '../screens/CommentsScreen/CommentsScreen';
-import {SearchTabNavigatorParamList} from './types';
+import {SearchTabNavigatorParamList} from '../types/navigation';
 
 const SearchTabNavigator = () => {
   const insets = useSafeAreaInsets();

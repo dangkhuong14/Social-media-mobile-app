@@ -8,7 +8,7 @@ import {
   UserProfileNavigationProp,
   MyProfileRouteProp,
   UserProfileRouteProp,
-} from '../../navigation/types';
+} from '../../types/navigation';
 
 const ProfileScreen = () => {
   const navigation = useNavigation<

@@ -12,7 +12,7 @@ import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel';
 import VideoPlayer from '../VideoPlayer';
 import {useNavigation} from '@react-navigation/native';
-import {RootNavigationProp} from '../../navigation/types';
+import {RootNavigationProp} from '../../types/navigation';
 
 interface IFeedPost {
   post: IPost;
