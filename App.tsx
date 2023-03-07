@@ -1,11 +1,12 @@
 import Navitgation from './src/navigation';
 import {Amplify} from 'aws-amplify';
-import config from './src/aws-exports';
+import awsExports from './src/aws-exports';
+import {withAuthenticator} from '@aws-amplify/ui-react-native';
 
-Amplify.configure(config);
+Amplify.configure(awsExports);
 
 const App = () => {
   return <Navitgation />;
 };
 
-export default App;
+export default withAuthenticator(App);
