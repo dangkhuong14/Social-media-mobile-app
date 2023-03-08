@@ -1,4 +1,4 @@
-package com.mystargram.newarchitecture.components;
+package dev.mystarprime.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

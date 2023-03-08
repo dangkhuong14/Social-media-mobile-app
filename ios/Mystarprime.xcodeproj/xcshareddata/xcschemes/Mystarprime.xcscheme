@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Mystargram.app"
-               BlueprintName = "Mystargram"
-               ReferencedContainer = "container:Mystargram.xcodeproj">
+               BuildableName = "Mystarprime.app"
+               BlueprintName = "Mystarprime"
+               ReferencedContainer = "container:Mystarprime.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "MystargramTests.xctest"
-               BlueprintName = "MystargramTests"
-               ReferencedContainer = "container:Mystargram.xcodeproj">
+               BuildableName = "MystarprimeTests.xctest"
+               BlueprintName = "MystarprimeTests"
+               ReferencedContainer = "container:Mystarprime.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Mystargram.app"
-            BlueprintName = "Mystargram"
-            ReferencedContainer = "container:Mystargram.xcodeproj">
+            BuildableName = "Mystarprime.app"
+            BlueprintName = "Mystarprime"
+            ReferencedContainer = "container:Mystarprime.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Mystargram.app"
-            BlueprintName = "Mystargram"
-            ReferencedContainer = "container:Mystargram.xcodeproj">
+            BuildableName = "Mystarprime.app"
+            BlueprintName = "Mystarprime"
+            ReferencedContainer = "container:Mystarprime.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

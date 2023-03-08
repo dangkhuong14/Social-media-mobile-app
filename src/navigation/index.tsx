@@ -3,8 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import CommentsScreen from '../screens/CommentsScreen';
 import {RootNavigatorParamList} from '../types/navigation';
-import {ActivityIndicator} from 'react-native';
-import colors from '../theme/colors';
 import AuthStackNavigator from './AuthStackNavigator';
 import {useAuthContext} from '../contexts/AuthContext';
 import WelcomeScreen from '../screens/WelcomeScreen';

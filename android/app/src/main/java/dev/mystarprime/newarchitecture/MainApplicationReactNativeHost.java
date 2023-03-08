@@ -1,4 +1,4 @@
-package com.mystargram.newarchitecture;
+package dev.mystarprime.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.mystargram.BuildConfig;
-import com.mystargram.newarchitecture.components.MainComponentsRegistry;
-import com.mystargram.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import dev.mystarprime.BuildConfig;
+import dev.mystarprime.newarchitecture.components.MainComponentsRegistry;
+import dev.mystarprime.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
