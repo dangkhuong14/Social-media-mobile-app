@@ -9,11 +9,18 @@
       "UnauthRoleName": "amplify-mystargram-staging-41551-unauthRole",
       "StackName": "amplify-mystargram-staging-41551",
       "StackId": "arn:aws:cloudformation:ap-southeast-1:740407467124:stack/amplify-mystargram-staging-41551/6abb60e0-bb0c-11ed-b385-0a3d92830f5c",
-      "AmplifyAppId": "d1ubery0g8nmbb"
+      "AmplifyAppId": "d1ubery0g8nmbb",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-mystargram-staging-41551-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
         "Mystargram": {}
+      },
+      "function": {
+        "MystargramPostConfirmation": {
+          "deploymentBucketName": "amplify-mystargram-staging-41551-deployment",
+          "s3Key": "amplify-builds/MystargramPostConfirmation-5667486974563857786a-build.zip"
+        }
       }
     }
   }
