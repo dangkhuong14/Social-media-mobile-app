@@ -3,10 +3,11 @@ import {View, Text, Image, Pressable, StyleSheet} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import {IComment} from '../../types/models';
+import {Comment as CommentType} from '../../API';
+import {DEFAULT_USER_IMAGE} from '../../config';
 
 interface ICommentProps {
-  comment: IComment;
+  comment: CommentType;
   includeDetail?: boolean;
 }
 
@@ -18,11 +19,14 @@ const Comment = ({comment, includeDetail = false}: ICommentProps) => {
   return (
     <View style={styles.comment}>
       {includeDetail && (
-        <Image source={{uri: comment.user.image}} style={styles.avatar} />
+        <Image
+          source={{uri: comment.User?.image || DEFAULT_USER_IMAGE}}
+          style={styles.avatar}
+        />
       )}
       <View style={styles.middleColumn}>
         <Text style={styles.commentText}>
-          <Text style={styles.bold}>{comment.user.username} </Text>
+          <Text style={styles.bold}>{comment.User?.username} </Text>
           {comment.comment}
         </Text>
         {includeDetail && (
