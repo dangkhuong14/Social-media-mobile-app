@@ -1,6 +1,6 @@
 projects:
-  Mystargram:
-    schemaPath: amplify/backend/api/Mystargram/build/schema.graphql
+  Mystarprime:
+    schemaPath: amplify/backend/api/Mystarprime/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:
