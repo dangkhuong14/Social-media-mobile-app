@@ -19,8 +19,11 @@
       "function": {
         "MystarprimePostConfirmation": {
           "deploymentBucketName": "amplify-mystarprime-staging-42955-deployment",
-          "s3Key": "amplify-builds/MystarprimePostConfirmation-6a5734677a6c654a7a30-build.zip"
+          "s3Key": "amplify-builds/MystarprimePostConfirmation-2f337252796d5a664143-build.zip"
         }
+      },
+      "api": {
+        "Mystarprime": {}
       }
     }
   }

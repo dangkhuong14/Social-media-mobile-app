@@ -69,12 +69,14 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
       {/* Header */}
 
       <View style={styles.header}>
-        <Image
-          style={styles.userAvatar}
-          source={{
-            uri: post.User?.image || DEFAULT_USER_IMAGE,
-          }}
-        />
+        <Pressable onPress={navigateToUser}>
+          <Image
+            style={styles.userAvatar}
+            source={{
+              uri: post.User?.image || DEFAULT_USER_IMAGE,
+            }}
+          />
+        </Pressable>
         <Text onPress={navigateToUser} style={styles.userName}>
           {post.User?.username}
         </Text>

@@ -13,5 +13,13 @@
   "triggerEventPath": "PostConfirmation.event.json",
   "roleName": "MystarprimePostConfirmation",
   "skipEdit": true,
-  "enableCors": false
+  "enableCors": false,
+  "permissions": {
+    "api": {
+      "Mystarprime": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
 }
