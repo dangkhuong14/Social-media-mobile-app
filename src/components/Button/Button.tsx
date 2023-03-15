@@ -4,12 +4,15 @@ import fonts from '../../theme/fonts';
 
 interface IButton {
   text?: string;
+  inline?: boolean;
   onPress?: () => void;
 }
 
-const Button = ({text = '', onPress = () => {}}: IButton) => {
+const Button = ({text = '', inline = false, onPress = () => {}}: IButton) => {
   return (
-    <Pressable onPress={onPress} style={styles.buttonContainer}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.buttonContainer, inline ? {flex: 1} : {}]}>
       <Text style={styles.text}>{text}</Text>
     </Pressable>
   );
@@ -17,7 +20,6 @@ const Button = ({text = '', onPress = () => {}}: IButton) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
 

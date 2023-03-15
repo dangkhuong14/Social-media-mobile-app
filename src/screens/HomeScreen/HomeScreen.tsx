@@ -1,67 +1,24 @@
-import {FlatList, ViewToken, ViewabilityConfig} from 'react-native';
-import {useRef, useState, useEffect} from 'react';
-// import posts from '../../assets/data/posts.json';
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  ViewToken,
+  ViewabilityConfig,
+} from 'react-native';
+import {useRef, useState} from 'react';
 import FeedPost from '../../components/FeedPost';
-import {API, graphqlOperation} from 'aws-amplify';
-
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        description
-        image
-        images
-        video
-        nofLikes
-        nofComments
-        userID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        User {
-          id
-          name
-          username
-          image
-        }
-        Comments {
-          items {
-            id
-            comment
-            User {
-              id
-              name
-              username
-            }
-          }
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
+import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
+import {useQuery} from '@apollo/client';
+import colors from '../../theme/colors';
+import {listPosts} from './queries';
+import {ListPostsQuery, ListPostsQueryVariables} from '../../API';
 
 const HomeScreen = () => {
   const [visibleItemId, setVisibleItemId] = useState<string | null>(null);
-  const [posts, setPosts] = useState([]);
-
-  const fetchPosts = async () => {
-    const response = await API.graphql(graphqlOperation(listPosts));
-    console.log(response);
-    setPosts(response.data.listPosts.items);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const {data, loading, error, refetch} = useQuery<
+    ListPostsQuery,
+    ListPostsQueryVariables
+  >(listPosts);
 
   const viewabilityConfig: ViewabilityConfig = {
     itemVisiblePercentThreshold: 51,
@@ -75,15 +32,37 @@ const HomeScreen = () => {
     },
   );
 
+  if (loading)
+    return (
+      <ActivityIndicator
+        size="large"
+        color={colors.primary}
+        style={{flex: 1, width: '100%'}}
+      />
+    );
+
+  if (error)
+    return (
+      <ApiErrorMessage
+        title="Error fetching posts"
+        message={error && error.message}
+        onRetry={refetch}
+      />
+    );
+
+  const posts = data?.listPosts?.items || [];
+
   return (
     <FlatList
       data={posts}
-      renderItem={({item}) => (
-        <FeedPost
-          post={item}
-          isVisible={visibleItemId === item.id ? true : false}
-        />
-      )}
+      renderItem={({item}) =>
+        item && (
+          <FeedPost
+            post={item}
+            isVisible={visibleItemId === item.id ? true : false}
+          />
+        )
+      }
       showsVerticalScrollIndicator={false}
       onViewableItemsChanged={onViewableItemsChanged.current}
       viewabilityConfig={viewabilityConfig}

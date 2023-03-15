@@ -3,6 +3,7 @@ import Navitgation from './src/navigation';
 import {Amplify} from 'aws-amplify';
 import awsExports from './src/aws-exports';
 import AuthContextProvider from './src/contexts/AuthContext';
+import Client from './src/apollo/Client';
 
 // ------------------Theses comments is used for in-app browser which didn't work as expected-----------------------------------
 // import {InAppBrowser} from 'react-native-inappbrowser-reborn';
@@ -34,7 +35,9 @@ Amplify.configure(awsExports);
 const App = () => {
   return (
     <AuthContextProvider>
-      <Navitgation />
+      <Client>
+        <Navitgation />
+      </Client>
     </AuthContextProvider>
   );
 };
