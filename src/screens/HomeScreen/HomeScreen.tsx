@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Text,
   ViewToken,
   ViewabilityConfig,
 } from 'react-native';
@@ -46,7 +45,7 @@ const HomeScreen = () => {
       <ApiErrorMessage
         title="Error fetching posts"
         message={error && error.message}
-        onRetry={refetch}
+        onRetry={() => refetch()}
       />
     );
 
