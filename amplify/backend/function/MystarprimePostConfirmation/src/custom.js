@@ -72,7 +72,7 @@ exports.handler = async (event, context) => {
   const { userName } = event
   const { sub, name, email } = event.request.userAttributes
 
-  const newUser = { id: sub, username: userName, name, email }
+  const newUser = { id: sub, username: userName, name, email, nofPosts: 0, nofFollowers: 0, nofFollowings: 0 }
 
   //Check if user is already exists in Dynamo database
   //If not save cognito user to database
