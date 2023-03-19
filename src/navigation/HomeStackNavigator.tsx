@@ -12,7 +12,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         name="Feed"
         component={HomeScreen}
-        options={{headerTitle: HeaderTitle, headerTitleAlign: 'center'}}
+        options={{headerTitle: HeaderTitle}}
       />
       <Stack.Screen
         name="UserProfile"

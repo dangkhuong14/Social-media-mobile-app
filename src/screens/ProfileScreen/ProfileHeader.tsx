@@ -14,6 +14,7 @@ interface IProfileHeader {
 
 const ProfileHeader = ({user}: IProfileHeader) => {
   const navigation = useNavigation<ProfileNavigationProp>();
+  navigation.setOptions({title: user?.username || 'Profile'});
   const {userId} = useAuthContext();
 
   const navigateToEditProfile = () => {

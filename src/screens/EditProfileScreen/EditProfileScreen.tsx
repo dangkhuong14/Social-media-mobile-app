@@ -1,9 +1,6 @@
 import {
-  View,
   Text,
-  StyleSheet,
   Image,
-  TextInput,
   ActivityIndicator,
   Pressable,
   Keyboard,
@@ -11,8 +8,7 @@ import {
 } from 'react-native';
 import {useEffect, useState} from 'react';
 import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
-import {useForm, Controller, Control} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
   DeleteUserMutation,
@@ -21,64 +17,21 @@ import {
   GetUserQueryVariables,
   UpdateUserMutation,
   UpdateUserMutationVariables,
-  User,
+  UsersByUsernameQuery,
+  UsersByUsernameQueryVariables,
 } from '../../API';
-import {useMutation, useQuery} from '@apollo/client';
-import {deleteUser, getUser, updateUser} from './queries';
+import {useMutation, useQuery, useLazyQuery} from '@apollo/client';
+import {deleteUser, getUser, updateUser, usersByUsername} from './queries';
 import {useAuthContext} from '../../contexts/AuthContext';
 import ApiErrorMessage from '../../components/ApiErrorMessage';
 import {DEFAULT_USER_IMAGE} from '../../config';
 import {useNavigation} from '@react-navigation/native';
-import {onDeleteUser} from '../../graphql/subscriptions';
 import {Auth} from 'aws-amplify';
+import styles from './styles';
+import CustomInput, {IEditableUser} from './CustomInput';
 
 const URL_REGEX =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-
-type IEditableUserField = 'name' | 'bio' | 'website' | 'username';
-type IEditableUser = Pick<User, IEditableUserField>;
-
-interface ICustomInput {
-  label: string;
-  multiline?: boolean;
-  control: Control<IEditableUser, object>;
-  name: IEditableUserField;
-  rules?: object;
-}
-
-const CustomInput = ({
-  label,
-  multiline = false,
-  control,
-  name,
-  rules,
-}: ICustomInput) => (
-  <Controller
-    control={control}
-    name={name}
-    rules={rules}
-    render={({field: {onChange, onBlur, value}, fieldState: {error}}) => {
-      return (
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{label}</Text>
-          <View style={{flex: 1}}>
-            <TextInput
-              style={[styles.input, error && {borderColor: colors.error}]}
-              placeholder={label}
-              multiline={multiline}
-              value={value || ''}
-              onChangeText={onChange}
-              onBlur={onBlur}
-            />
-            {error && (
-              <Text style={styles.errorText}>{error.message || 'Error'}</Text>
-            )}
-          </View>
-        </View>
-      );
-    }}
-  />
-);
 
 const EditProfileScreen = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<null | Asset>(null);
@@ -107,6 +60,13 @@ const EditProfileScreen = () => {
     doDeleteUser,
     {data: deleteData, loading: deleteLoading, error: deleteError},
   ] = useMutation<DeleteUserMutation, DeleteUserMutationVariables>(deleteUser);
+
+  const [
+    doValidateUsername,
+    {data: validateData, loading: validateLoading, error: validateError},
+  ] = useLazyQuery<UsersByUsernameQuery, UsersByUsernameQueryVariables>(
+    usersByUsername,
+  );
 
   useEffect(() => {
     if (user?.name) setValue('name', user?.name);
@@ -169,6 +129,23 @@ const EditProfileScreen = () => {
     );
   };
 
+  const validateUsername = async (username: string) => {
+    try {
+      const response = await doValidateUsername({variables: {username}});
+      const users = response.data?.usersByUsername?.items;
+      if (response.error) {
+        Alert.alert('Failed to fetch username');
+        return 'Failed to fetch username';
+      }
+      // if username exists and user ID is different from authenticated user ID
+      if (users && users.length > 0 && users[0]?.id !== userId) {
+        return 'username has already been taken';
+      }
+    } catch (err) {
+      Alert.alert('Failed to fetch username');
+    }
+  };
+
   if (loading)
     return (
       <ActivityIndicator
@@ -209,6 +186,7 @@ const EditProfileScreen = () => {
         rules={{
           required: 'This field need to be filled',
           minLength: {value: 3, message: 'At least 3 characters'},
+          validate: validateUsername,
         }}
       />
       <CustomInput
@@ -241,50 +219,5 @@ const EditProfileScreen = () => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  page: {
-    padding: 10,
-    alignItems: 'center',
-  },
-  image: {
-    width: '30%',
-    aspectRatio: 1,
-    borderRadius: 100,
-  },
-  textButton: {
-    color: colors.primary,
-    fontWeight: fonts.weight.semi,
-    fontSize: fonts.size.md,
-
-    margin: 10,
-  },
-
-  dangerButton: {
-    color: colors.error,
-    fontWeight: fonts.weight.semi,
-    fontSize: fonts.size.md,
-
-    margin: 10,
-  },
-
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  label: {
-    width: 80,
-  },
-
-  input: {
-    borderBottomWidth: 1,
-    borderColor: colors.border,
-  },
-
-  errorText: {
-    color: colors.error,
-  },
-});
 
 export default EditProfileScreen;
