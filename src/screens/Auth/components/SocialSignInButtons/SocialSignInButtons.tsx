@@ -10,7 +10,6 @@ const SocialSignInButtons = () => {
       const user = await Auth.federatedSignIn({
         provider: CognitoHostedUIIdentityProvider.Facebook,
       });
-      console.log(user);
     } catch (err) {
       Alert.alert('Oops!', (err as Error).message);
     }
@@ -21,7 +20,6 @@ const SocialSignInButtons = () => {
       const user = await Auth.federatedSignIn({
         provider: CognitoHostedUIIdentityProvider.Google,
       });
-      console.log(user);
     } catch (err) {
       Alert.alert('Oops!', (err as Error).message);
     }

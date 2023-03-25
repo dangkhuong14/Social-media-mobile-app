@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import logo from '../assets/images/logo.png';
 import {HomeStackNavigatorParamList} from '../types/navigation';
+import UpdatePostScreen from '../screens/UpdatePostScreen';
 
 const HomeStackNavigator = () => {
   const Stack = createNativeStackNavigator<HomeStackNavigatorParamList>();
@@ -14,10 +15,11 @@ const HomeStackNavigator = () => {
         component={HomeScreen}
         options={{headerTitle: HeaderTitle}}
       />
+      <Stack.Screen name="UserProfile" component={ProfileScreen} />
       <Stack.Screen
-        name="UserProfile"
-        component={ProfileScreen}
-        options={{headerTitle: 'Profile'}}
+        name="UpdatePost"
+        component={UpdatePostScreen}
+        options={{headerTitle: 'Update Post'}}
       />
     </Stack.Navigator>
   );

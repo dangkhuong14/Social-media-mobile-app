@@ -14,10 +14,12 @@ import {
 } from 'react-native-vision-camera';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../theme/colors';
+import {useNavigation} from '@react-navigation/native';
+import {CameraNavigationProp} from '../../types/navigation';
 
 type flash = 'on' | 'off' | 'auto';
 
-const PostUploadScreen = () => {
+const CameraScreen = () => {
   const devices = useCameraDevices('wide-angle-camera');
   const [hasPermissions, setHasPermissions] = useState<null | boolean>(null);
   const [cameraDevice, setCameraDevice] = useState<CameraDevice | undefined>(
@@ -33,6 +35,8 @@ const PostUploadScreen = () => {
     ['off']: 'flash-off',
     ['auto']: 'flash-auto',
   };
+
+  const navigation = useNavigation<CameraNavigationProp>();
 
   const getPermissions = async () => {
     const newCameraPermission = await Camera.requestCameraPermission();
@@ -72,6 +76,20 @@ const PostUploadScreen = () => {
   useEffect(() => {
     setCameraDevice(devices.back);
   }, [devices]);
+
+  const navigateToCreateScreen = () => {
+    // navigation.navigate('Create', {
+    //   images: [
+    //     'https://marketplace.canva.com/EAE-xnqWvJk/1/0/1600w/canva-retro-smoke-and-round-light-desktop-wallpapers-JLofAI27pCg.jpg',
+    //     'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg',
+    //     'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/3.jpg',
+    //   ],
+    // });
+
+    navigation.navigate('Create', {
+      image: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/3.jpg',
+    });
+  };
 
   const onFlip = () => {
     if (cameraDevice === devices.back) setCameraDevice(devices.front);
@@ -183,6 +201,16 @@ const PostUploadScreen = () => {
             size={30}
             color={colors.white}
           />
+
+          {/* ---------------------- Delete this ------------- */}
+          <Pressable onPress={navigateToCreateScreen}>
+            <MaterialIcons
+              name="arrow-forward"
+              size={30}
+              color={colors.white}
+            />
+          </Pressable>
+          {/* ---------------------- Delete this ------------- */}
         </Pressable>
       </View>
     </View>
@@ -226,4 +254,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostUploadScreen;
+export default CameraScreen;

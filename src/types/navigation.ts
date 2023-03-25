@@ -9,19 +9,6 @@ export type RootNavigatorParamList = {
   Comments: {postId: string};
 };
 
-// Cach lam sai
-// export type RootNavigationProp = NativeStackNavigationProp<RootNavigatorParamList, 'Home'>
-// export type RootNavigationProp = CompositeNavigationProp<
-//   NativeStackNavigationProp<HomeStackNavigatorParamList, 'Feed'>,
-//   NativeStackNavigationProp<RootNavigatorParamList>
-// >;
-// export type RootNavigationProp = CompositeNavigationProp<
-//   BottomTabNavigationProp<BottomTabNavigatorParamList, 'HomeStack'>,
-//   NativeStackNavigationProp<RootNavigatorParamList>
-// >;
-
-// Cach dung
-// Thay cho FeedNavigationProp o FeedPost.tsx
 export type RootNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackNavigatorParamList, 'Feed'>,
   CompositeNavigationProp<
@@ -51,7 +38,45 @@ export type UserListItemNavigationProp = CompositeNavigationProp<
 export type HomeStackNavigatorParamList = {
   Feed: undefined;
   UserProfile: {userId: string};
+  UpdatePost: {id: string};
 };
+
+export type UpdatePostNavigationProp = NativeStackNavigationProp<
+  HomeStackNavigatorParamList,
+  'UpdatePost'
+>;
+
+export type UpdatePostRouteProp = RouteProp<
+  HomeStackNavigatorParamList,
+  'UpdatePost'
+>;
+
+export type UploadStackNavigatorParamList = {
+  Camera: undefined;
+  Create: {
+    image?: string;
+    images?: string[];
+    video?: string;
+  };
+};
+
+export type CameraNavigationProp = NativeStackNavigationProp<
+  UploadStackNavigatorParamList,
+  'Camera'
+>;
+
+export type CreateNavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<UploadStackNavigatorParamList, 'Create'>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<BottomTabNavigatorParamList>,
+    NativeStackNavigationProp<HomeStackNavigatorParamList>
+  >
+>;
+
+export type CreateRouteProp = RouteProp<
+  UploadStackNavigatorParamList,
+  'Create'
+>;
 
 export type ProfileStackNavigatorParamList = {
   Profile: undefined;

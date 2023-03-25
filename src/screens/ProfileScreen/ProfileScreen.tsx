@@ -55,7 +55,7 @@ const ProfileScreen = () => {
   return (
     <View>
       <FeedGridView
-        data={user.Posts?.items || []}
+        data={(user.Posts?.items || []).filter(post => !post?._deleted)}
         ListHeaderComponent={() => <ProfileHeader user={user} />}
         refetch={refetch}
         loading={loading}

@@ -76,7 +76,6 @@ const EditProfileScreen = () => {
   }, [user]);
 
   const onSubmit = async (formData: IEditableUser) => {
-    console.log('Submitted', data);
     await doUpdateUser({
       variables: {input: {id: userId, ...formData, _version: user?._version}},
     });
@@ -143,7 +142,9 @@ const EditProfileScreen = () => {
       }
     } catch (err) {
       Alert.alert('Failed to fetch username');
+      return 'Failed to fetch username';
     }
+    return true;
   };
 
   if (loading)
