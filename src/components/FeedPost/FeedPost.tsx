@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {Text, View, Image, Pressable} from 'react-native';
 import colors from '../../theme/colors';
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,9 +11,27 @@ import Carousel from '../Carousel';
 import VideoPlayer from '../VideoPlayer';
 import {useNavigation} from '@react-navigation/native';
 import {RootNavigationProp} from '../../types/navigation';
-import {Post} from '../../API';
+import {
+  CreateLikeMutation,
+  CreateLikeMutationVariables,
+  DeleteLikeMutation,
+  DeleteLikeMutationVariables,
+  LikesForPostByUserQuery,
+  LikesForPostByUserQueryVariables,
+  Post,
+  UpdatePostMutation,
+  UpdatePostMutationVariables,
+} from '../../API';
 import {DEFAULT_USER_IMAGE} from '../../config';
 import PostMenu from './PostMenu';
+import {useMutation, useQuery} from '@apollo/client';
+import {
+  createLike,
+  deleteLike,
+  likesForPostByUser,
+  updatePost,
+} from './queries';
+import {useAuthContext} from '../../contexts/AuthContext';
 
 interface IFeedPost {
   post: Post;
@@ -23,8 +40,49 @@ interface IFeedPost {
 
 const FeedPost = ({post, isVisible}: IFeedPost) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation<RootNavigationProp>();
+  const {userId} = useAuthContext();
+  const [doCreateLike] = useMutation<
+    CreateLikeMutation,
+    CreateLikeMutationVariables
+  >(createLike, {
+    variables: {input: {postID: post.id, userID: userId}},
+    refetchQueries: ['LikesForPostByUser'],
+  });
+
+  const [doDeleteLike] = useMutation<
+    DeleteLikeMutation,
+    DeleteLikeMutationVariables
+  >(deleteLike);
+
+  const [doUpdatePost] = useMutation<
+    UpdatePostMutation,
+    UpdatePostMutationVariables
+  >(updatePost);
+
+  const {data: userLikeData} = useQuery<
+    LikesForPostByUserQuery,
+    LikesForPostByUserQueryVariables
+  >(likesForPostByUser, {variables: {postID: post.id, userID: {eq: userId}}});
+
+  const userLike = (userLikeData?.likesForPostByUser?.items || []).filter(
+    like => !like?._deleted,
+  )?.[0];
+
+  const postLikes = post.Likes?.items.filter(like => !like?._deleted) || [];
+
+  const adjustNumberOfLikes = (ammount: 1 | -1) => {
+    doUpdatePost({
+      variables: {
+        input: {
+          id: post.id,
+          _version: post._version,
+          nofLikes: post.nofLikes + ammount,
+        },
+      },
+      refetchQueries: ['ListPosts'],
+    });
+  };
 
   const navigateToUser = () => {
     if (post.User) navigation.navigate('UserProfile', {userId: post.User.id});
@@ -34,12 +92,24 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
     navigation.navigate('Comments', {postId: post.id});
   };
 
+  const navigateToLikesPage = () => {
+    navigation.navigate('PostLikes', {id: post.id});
+  };
+
   const toggleDescriptionExpanded = () => {
     setIsDescriptionExpanded(!isDescriptionExpanded);
   };
 
   const toggleLike = () => {
-    setIsLiked(!isLiked);
+    if (userLike) {
+      doDeleteLike({
+        variables: {input: {id: userLike.id, _version: userLike._version}},
+      });
+      adjustNumberOfLikes(-1);
+      return;
+    }
+    doCreateLike();
+    adjustNumberOfLikes(1);
   };
 
   let content = null;
@@ -93,10 +163,10 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
         <View style={styles.iconContainer}>
           <Pressable onPress={toggleLike}>
             <AntDesign
-              name={isLiked ? 'heart' : 'hearto'}
+              name={userLike ? 'heart' : 'hearto'}
               size={24}
               style={styles.icon}
-              color={isLiked ? colors.accent : colors.black}
+              color={userLike ? colors.accent : colors.black}
             />
           </Pressable>
           <Ionicons
@@ -121,11 +191,21 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
 
         {/* Likes */}
 
-        <Text style={styles.text}>
-          Liked by {''}
-          <Text style={styles.bold}>Gia Huy</Text> and
-          <Text style={styles.bold}> {post.nofLikes} others</Text>
-        </Text>
+        {postLikes.length === 0 ? (
+          <Text style={styles.text}>Be the first one to like the post</Text>
+        ) : (
+          <Text style={styles.text} onPress={navigateToLikesPage}>
+            Liked by {''}
+            <Text style={styles.bold}>{postLikes[0]?.User?.username}</Text>
+            {postLikes.length > 1 && (
+              <>
+                {' '}
+                and
+                <Text style={styles.bold}> {post.nofLikes - 1} others</Text>
+              </>
+            )}
+          </Text>
+        )}
 
         {/* Post description */}
 
