@@ -24,6 +24,28 @@ export const createLike = gql`
       id
       userID
       postID
+
+      Post {
+        id
+        nofLikes
+        Likes {
+          items {
+            id
+            _deleted
+            _version
+            User {
+              id
+              username
+              name
+            }
+          }
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -93,6 +115,27 @@ export const deleteLike = gql`
       userID
       postID
 
+      Post {
+        id
+        nofLikes
+        Likes {
+          items {
+            id
+            _deleted
+            _version
+            User {
+              id
+              username
+              name
+            }
+          }
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -110,7 +153,16 @@ export const updatePost = gql`
     updatePost(input: $input, condition: $condition) {
       id
       nofLikes
-
+      Likes {
+        items {
+          id
+          userID
+          postID
+          _deleted
+        }
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version

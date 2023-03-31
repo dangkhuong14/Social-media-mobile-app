@@ -80,7 +80,6 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
           nofLikes: post.nofLikes + ammount,
         },
       },
-      refetchQueries: ['ListPosts'],
     });
   };
 
