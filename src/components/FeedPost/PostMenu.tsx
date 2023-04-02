@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {Text, StyleSheet, Alert} from 'react-native';
 import {
   Menu,
   MenuOption,
@@ -32,7 +32,7 @@ const PostMenu = ({post}: IPostMenu) => {
   const navigation = useNavigation<UpdatePostNavigationProp>();
 
   const startDeletingPost = async () => {
-    const response = await doDeletePost();
+    await doDeletePost();
   };
 
   const onDeleteOptionPressed = () => {

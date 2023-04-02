@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {ActivityIndicator, FlatList} from 'react-native';
 import {useQuery} from '@apollo/client';
 import {
@@ -18,6 +19,10 @@ const PostLikesScreen = () => {
     LikesForPostByUserQuery,
     LikesForPostByUserQueryVariables
   >(likesForPostByUser, {variables: {postID}});
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (loading)
     return (
