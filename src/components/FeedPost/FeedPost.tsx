@@ -42,7 +42,7 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const navigation = useNavigation<RootNavigationProp>();
   const {userId} = useAuthContext();
-  const [doCreateLike] = useMutation<
+  const [doCreateLike, {loading: createLikeLoading}] = useMutation<
     CreateLikeMutation,
     CreateLikeMutationVariables
   >(createLike, {
@@ -50,12 +50,12 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
     refetchQueries: ['LikesForPostByUser'],
   });
 
-  const [doDeleteLike] = useMutation<
+  const [doDeleteLike, {loading: deleteLikeLoading}] = useMutation<
     DeleteLikeMutation,
     DeleteLikeMutationVariables
-  >(deleteLike);
+  >(deleteLike, {refetchQueries: ['LikesForPostByUser']});
 
-  const [doUpdatePost] = useMutation<
+  const [doUpdatePost, {loading: updatePostLoading}] = useMutation<
     UpdatePostMutation,
     UpdatePostMutationVariables
   >(updatePost);
@@ -160,7 +160,12 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
       {/* Footer */}
       <View style={styles.footer}>
         <View style={styles.iconContainer}>
-          <Pressable onPress={toggleLike}>
+          <Pressable
+            onPress={
+              deleteLikeLoading || createLikeLoading || updatePostLoading
+                ? () => {}
+                : toggleLike
+            }>
             <AntDesign
               name={userLike ? 'heart' : 'hearto'}
               size={24}
@@ -195,12 +200,17 @@ const FeedPost = ({post, isVisible}: IFeedPost) => {
         ) : (
           <Text style={styles.text} onPress={navigateToLikesPage}>
             Liked by {''}
-            <Text style={styles.bold}>{postLikes[0]?.User?.username}</Text>
+            <Text style={styles.bold}>
+              {postLikes[postLikes.length - 1]?.User?.username}
+            </Text>
             {postLikes.length > 1 && (
               <>
                 {' '}
                 and
-                <Text style={styles.bold}> {post.nofLikes - 1} others</Text>
+                <Text style={styles.bold}>
+                  {' '}
+                  {post.nofLikes <= 0 ? 0 : post.nofLikes - 1} others
+                </Text>
               </>
             )}
           </Text>

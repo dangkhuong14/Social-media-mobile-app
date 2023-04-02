@@ -1,5 +1,4 @@
-import {View, Text, ActivityIndicator, FlatList} from 'react-native';
-import React from 'react';
+import {ActivityIndicator, FlatList} from 'react-native';
 import {useQuery} from '@apollo/client';
 import {
   LikesForPostByUserQuery,

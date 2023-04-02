@@ -24,7 +24,6 @@ export const createLike = gql`
       id
       userID
       postID
-
       Post {
         id
         nofLikes
@@ -81,7 +80,12 @@ export const likesForPostByUser = gql`
         _version
         _deleted
         _lastChangedAt
-
+        User {
+          id
+          image
+          name
+          username
+        }
         Post {
           id
           nofLikes
